@@ -49,6 +49,13 @@ Dans ce projet, nous avons :
 
 - **`Config` :**  
   Contient les configurations, y compris les chemins (paths) pour les fichiers d'entrée et de sortie.
+  
+- **`Set Up` :**  
+  Contient les configurations de base.
+
+  - **`Requet` :**  
+  Contient la requet à traduire.
+  
 
 ---
 
