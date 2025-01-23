@@ -53,7 +53,7 @@ Dans ce projet, nous avons :
 - **`Set Up` :**  
   Contient les configurations de base.
 
-  - **`Requet` :**  
+- **`Requet` :**  
   Contient la requet à traduire.
   
 
