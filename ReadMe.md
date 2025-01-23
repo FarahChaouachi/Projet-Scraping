@@ -21,7 +21,7 @@ Dans ce projet, nous avons :
 
 ---
 
-## Architecture du projet
+## 📂 Architecture du projet
 
 ### Dossiers et Contenu
 - **`Context` :**  
