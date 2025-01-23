@@ -1,6 +1,6 @@
 # Documentation du Projet
 
-## Objectif de l'exercice
+## 🎯 Objectif de l'exercice
 
 Dans ce projet, nous avons :
 - Transformé une requête SQL en utilisant des transformations Spark afin de traiter les données de manière plus efficace et évolutive.
@@ -9,7 +9,7 @@ Dans ce projet, nous avons :
 
 ---
 
-## Difficultés rencontrées
+## ⚠️ Difficultés rencontrées
 
 ### Partie Développement
 - La **complexité des requêtes SQL** peut parfois engendrer de la confusion.
