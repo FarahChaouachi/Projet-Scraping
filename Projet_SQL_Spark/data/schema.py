@@ -1,5 +1,6 @@
-from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DoubleType, DateType
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType, DateType
 
+# Define the schema for the input data
 schema_data = StructType([
     StructField("N_MOIS_DONN", IntegerType(), True),
     StructField("N_AN_DONNE", IntegerType(), True),

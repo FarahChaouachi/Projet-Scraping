@@ -1,27 +1,24 @@
-# Ce fichier contient la class qui permet de faire notre ETL 
+# This file contains the class that allows us to perform our ETL
 
-# dans la premiere classe il y a les fonctions pour ( initialisation, run{appel de lecture de data , appel de traitement appel , appel d ecriture data }, fonction lecture , fonction traitement , fonction ecriture )
-# dans la deuxieme classe c'est une classe de traitement des données ( implecite ) 
+# In the first class, there are functions for (initialization, run {call to read data, call to process data, call to write data}, read function, process function, write function)
+# In the second class, it is a data processing class (implicit)
 
 from pyspark.sql import DataFrame
 from data.Data_Frame_Reader import *
 from common.writer import *
-from pyspark.sql.functions import (coalesce, col, concat, concat_ws, desc, first_value, lit, max as f_max, min as f_min, when, regexp_replace)
+from pyspark.sql.functions import (coalesce, col, concat_ws, desc, first_value, lit,  when)
 from pyspark.sql import functions as F
-from pyspark.sql.functions import max as f_max
-from pyspark.sql.functions import min as f_min
 from pyspark.sql.functions import udf
 from pyspark.sql.types import StringType
 from pyspark.sql.functions import when
 from pyspark.sql.window import Window
-from unidecode import unidecode
-import re
    
+# Class for overall data processing
 class Resultat:
 
     def __init__(self,input_path: str,mois,annee,liste,output_path) -> None:
         
-        #initialisation par les paths des données 
+        # initialization with data paths
         self.input_path: str = input_path
         self.df=None
         self.mois_values=mois
@@ -32,11 +29,11 @@ class Resultat:
     
     def run(self) -> None:
 
-        #Transformation des des liens en data frame
+        # Transform the links into a data frame
         self.df: DataFrame = self._get_data_from_csv(self.input_path)
 
-        # Appliquer la transformation pour enlever les accents sur la colonne "col1"
-        # Créer une UDF Spark pour appliquer la fonction
+        # Apply the transformation to remove accents on the "col1" column
+        # Create a Spark UDF to apply the function
         remove_accents_udf = udf(remove_accents, StringType())
         self.df = self.df.withColumn("V_RESUME_PRJ", remove_accents_udf(self.df["V_RESUME_PRJ"]))
         self.df = self.df.withColumn("V_NOM_PRJ", remove_accents_udf(self.df["V_NOM_PRJ"]))
@@ -44,25 +41,20 @@ class Resultat:
         self.df = self.df.withColumn("I_TYPE_PROG_INNO", remove_accents_udf(self.df["I_TYPE_PROG_INNO"]))
         self.df = self.df.withColumn("V_PROC_PRJ", remove_accents_udf(self.df["V_PROC_PRJ"]))
 
-
-
-        #Transformation et les traitements 
+        # Transformation and processing
         dataset_joined: DataFrame = self._create_dataset_joined(self.df)
 
-
-
-        #Enregistrement du resultat dans un fichier CSV
+        # Save the result in a CSV file
         self._put_data_to_csv(dataset_joined,self.output_path)
 
-    
-
     def _get_data_from_csv(self,path)-> DataFrame:  
-        # converir le csv en DF
+        # Convert the CSV to DF
         df_read=Data_Frame_Reader(path)
         df_read.read(path)
         return (df_read.df)
     
     def _create_dataset_joined(self, df: DataFrame) -> DataFrame:
+        """Create the joined dataset with necessary transformations and filters"""
 
         Transfo = TransormationJointure()
 
@@ -123,13 +115,13 @@ class Resultat:
         return write_to_csv(df,path)
     
 
-
+# Class to perform data frame transformations
 class TransormationJointure:
     def __init__(self) -> None:
         self=None
 
     def _get_initial_transformation(self,df) -> DataFrame:
-        """Première transformation correspondant à la sous-requête la plus interne"""
+        """First transformation corresponding to the innermost subquery"""
         proc_prj_condition = when(
             (col("C_TYPE_PROG") == "MONOPARTENAIRE")
             & (
@@ -179,7 +171,7 @@ class TransormationJointure:
         )
     
     def _get_intermediate_transformation(self, df) -> DataFrame:
-        """Transformation intermédiaire avec des agrégations"""
+        """Intermediate transformation with aggregations"""
         return (
         df.groupBy(
             "N_MOIS_DONN",
@@ -216,7 +208,7 @@ class TransormationJointure:
     )
 
     def _get_v2_data(self,df) -> DataFrame:
-        """Préparation des données pour V2 avec des fonctions fenêtre"""
+        """Preparation of data for V2 with window functions"""
         windowSpec = Window.partitionBy("V_IDENT_PRJ", "V_ABD_REJ").orderBy(
             "C_SDC_CNTN"
         )
@@ -245,7 +237,7 @@ class TransormationJointure:
         )
 
     def _get_v3_data(self,df) -> DataFrame:
-        """Préparation des données pour V3"""
+        """Preparation of data for V3"""
         return (
             df.where((col("V_ABD_REJ").isNull()) & (~col("C_SS_FDS").like("%813%")))
             .select("N_MOIS_DONN", "N_AN_DONNE", "V_IDENT_PRJ")

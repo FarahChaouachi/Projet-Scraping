@@ -1,3 +1,4 @@
+# Description: Configuration file for the project
 config = {
     "input_path" : "C:/Users/fchaouachi/Downloads/export_DEPR_v20240708.csv",
     "output_path": "C:/Users/fchaouachi/Desktop/Projet SQL to Spark/Projet_SQL_Spark/output",  

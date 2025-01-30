@@ -3,8 +3,7 @@
 from context.context import get_spark_session
 from data.schema import schema_data
 
-
+# Function to read from a CSV file
 def read_from_csv(csv_file_path: str, header: bool = True, delimiter: str = ","):
-    
     spark = get_spark_session()
     return spark.read.csv(csv_file_path, header=header, sep=delimiter, inferSchema=True,schema=schema_data)
