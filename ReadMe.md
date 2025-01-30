@@ -55,7 +55,11 @@ Dans ce projet, nous avons :
 
 - **`Requet` :**  
   Contient la requet à traduire.
-  
+
+---
+## ⚠️ Remarque sur les caractères spéciaux
+
+Les données attendues (expected) contiennent parfois des caractères spéciaux, tels que des accents ou des symboles particuliers. Cela peut engendrer des problèmes lors des comparaisons avec les résultats obtenus (output). Il est recommandé de nettoyer ou de normaliser les données avant de procéder aux tests afin d'éviter ces différences.
 
 ---
 
