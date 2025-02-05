@@ -14,7 +14,7 @@ def test_compare_csv_files(spark):
     
     #################################Test Global #############################
     # Paths to the CSV files
-    output_csv_path = "C:/Users/fchaouachi/Desktop/Projet SQL to Spark/Projet_SQL_Spark/output/part-00000-c2c6675b-0a21-4f38-9c0e-1d23913588ca-c000.csv"
+    output_csv_path = "C:/Users/fchaouachi/Desktop/Projet SQL to Spark/Projet_SQL_Spark/output/part-00000-83bd2de4-3694-4fe5-b782-b6d6d61adbf9-c000.csv"
     expected_csv_path = "C:/Users/fchaouachi/Desktop/Projet SQL to Spark/Projet_SQL_Spark/tests/data/Final_nextsise_MONO_projet_20240722 (1).csv"
    
     # Read the CSV files into DataFrames

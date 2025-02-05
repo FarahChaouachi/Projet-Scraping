@@ -41,7 +41,7 @@ def test_read_from_csv(spark):
 def test_write_to_csv(spark):
     test_data_path = "C:/Users/fchaouachi/Downloads/export_DEPR_v20240708.csv"
     df = read_from_csv(test_data_path)
-    output_file_path = "C:/Users/fchaouachi/Desktop/Projet SQL to Spark/Projet_SQL_Spark/output"
+    output_file_path = "C:/Users/fchaouachi/Desktop/Projet SQL to Spark/Projet_SQL_Spark/tests/data"
     result_path = write_to_csv(df, output_file_path)
 
     assert os.path.exists(result_path)
