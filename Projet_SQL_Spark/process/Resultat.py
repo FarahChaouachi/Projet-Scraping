@@ -46,7 +46,6 @@ class Resultat:
 
         # Save the result in a CSV file
         self._put_data_to_csv(dataset_joined,self.output_path)
-        print('farouha')
 
     def _get_data_from_csv(self,path)-> DataFrame:  
         # Convert the CSV to DF
