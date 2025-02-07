@@ -25,5 +25,6 @@ Data=Resultat(input_path,
               output_file_path_joined
               )
 
+print('test')
 # Call the run method
 Data.run()
