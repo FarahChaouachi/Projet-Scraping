@@ -1,6 +1,12 @@
 from pyspark.sql import DataFrame
 
 # Function to write to a CSV file
-def write_to_csv(df: DataFrame, output_file_path: str, header: bool = True, delimiter: str = ",") -> str:
-    df.write.mode("overwrite").option("header", str(header).lower()).option("sep", delimiter).csv(output_file_path)
-    return output_file_path
+def write_to_DataBase(df: DataFrame,output) -> str:   
+    jdbc_url = output
+    table_name = "top_10_films"
+    properties = {
+    "user" : "root",
+    "password" : "Anas.osman@1998",
+    "driver": "com.mysql.cj.jdbc.Driver"
+    }
+    df.write.mode("overwrite").jdbc(jdbc_url, table_name, properties=properties)

@@ -10,7 +10,7 @@ from pyspark.sql.window import Window
 from pyspark.sql.functions import col
 from pyspark.sql import functions as F
 from kafka import KafkaConsumer,KafkaProducer
-from common.writer import write_to_csv
+from common.writer import write_to_DataBase
 
 
 # Class pour la partie Web Scrapping de la page web 
@@ -86,10 +86,10 @@ class kafka :
 
 # Class pour la partie de traitement 
 class Traitement : 
-    def __init__(self,inputweb,output,df=None):
+    def __init__(self,inputweb,output_path_database,df=None):
         self.df=df
         self.inputweb=inputweb
-        self.output=output
+        self.output_path_database=output_path_database
 
     def run(self) -> None:
         # Faire Le web Scrapping pour avoir les 10 meilleurs films 
@@ -108,7 +108,7 @@ class Traitement :
         self._get_data_from_kafka(cons)
         self._get_nom_colonne()
         self._get_data_traitement()
-        self._put_data_to_csv(self.output)
+        self._put_data_to_csv()
 
     def _get_data_from_kafka(self,data):
        df_read=Data_Frame_Reader() 
@@ -129,5 +129,5 @@ class Traitement :
         self.df = self.df.select("Classement","Top 10 sur IMDb cette semaine")
         return (self.df)
     
-    def _put_data_to_csv(self,path):
-        return write_to_csv(self.df,path)
+    def _put_data_to_csv(self):
+        write_to_DataBase(self.df,self.output_path_database)
